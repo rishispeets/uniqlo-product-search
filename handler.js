@@ -19,7 +19,7 @@ async function checkStock(event, context, cb) {
 async function getHtml(url) {
   try {
     const response = await axios.get(url);
-    console.log(response);
+    return response;
   } catch (error) {
     console.error(error);
   }

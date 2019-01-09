@@ -5,12 +5,12 @@ const htmlparser = require("htmlparser2");
 jest.mock("axios");
 
 describe("getHtml", () => {
-  test("it should retrieve html", () => {
+  test("it should retrieve html", async () => {
     const url = "https://www.uniqlo.com/eu/en_NL/men/outerwear/coats-jackets";
     const response = "<html><body><p>hello</p></body></html>";
 
     axios.get.mockImplementation(() => Promise.resolve(response));
-    const result = handler.getHtml(url);
+    const result = await handler.getHtml(url);
 
     expect(typeof result).toBe("string");
     expect(probablyHasHtmlElements(result)).toBe(true);
