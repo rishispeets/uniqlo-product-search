@@ -17,13 +17,15 @@ function configureAndInstantiateParser() {
 
 function configureParseHandler() {
   const listings = createListings();
-  const { isValid, add, finish } = listings;
-
   return {
-    onopentag: (name, { title = "" }) => {
-      if (isValid({ htmlElementType: name, listingName: title })) add(title);
-    },
+    onopentag: onHtmlTag(listings.isValid, listings.add),
+    onend: () => listings.finish()
+  };
+}
 
-    onend: () => finish()
+function onHtmlTag(isValid, add) {
+  return (name, { title = "" }) => {
+    if (isValid({ htmlElementType: name, listingName: title }))
+      return add(title);
   };
 }
