@@ -1,7 +1,9 @@
-module.exports = function createListings() {
+module.exports = createListings;
+
+function createListings() {
   const listings = new Set();
   return listingsInterface(listings);
-};
+}
 
 function listingsInterface(listings) {
   return {

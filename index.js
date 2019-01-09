@@ -6,7 +6,7 @@ const URL = "https://www.uniqlo.com/eu/en_NL/men/outerwear/coats-jackets";
 const SEARCH_TERMS = ["wool", "chesterfield", "coat"];
 
 async function checkStock(event, context, cb) {
-  const html = await getHtml(URL);
+  const html = await getListings(URL);
   const parsedHtml = parseListings(html);
 
   return {
@@ -18,7 +18,7 @@ async function checkStock(event, context, cb) {
   };
 }
 
-async function getHtml(url) {
+async function getListings(url) {
   try {
     const response = await axios.get(url);
     return response.data;
@@ -29,5 +29,5 @@ async function getHtml(url) {
 
 module.exports = {
   checkStock,
-  getHtml
+  getListings
 };

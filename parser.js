@@ -1,11 +1,13 @@
 const htmlparser = require("htmlparser2");
 const createListings = require("./listings");
 
-module.exports = function parseListings(html) {
+module.exports = parseListings;
+
+function parseListings(html) {
   const parser = configureAndInstantiateParser();
   parser.write(html);
   parser.end();
-};
+}
 
 function configureAndInstantiateParser() {
   return new htmlparser.Parser(configureParseHandler(), {
