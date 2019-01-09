@@ -18,14 +18,17 @@ function configureAndInstantiateParser() {
 function configureParseHandler() {
   const listings = createListings();
   return {
-    onopentag: onHtmlTag(listings.isValid, listings.add),
+    onopentag: onHtmlTag(listings),
     onend: () => listings.finish()
   };
 }
 
-function onHtmlTag(isValid, add) {
-  return (name, { title = "" }) => {
-    if (isValid({ htmlElementType: name, listingName: title }))
-      return add(title);
-  };
+function onHtmlTag(listings) {
+  return (tagType, { title = "" }) =>
+    validateAndAddListing({ tagType, title }, listings);
+}
+
+function validateAndAddListing(listing, listings) {
+  const { tagType, title } = listing;
+  if (isValid({ tagType, title })) return listings.add(title);
 }
