@@ -2,18 +2,23 @@ module.exports = createListings;
 
 function createListings() {
   const listings = new Set();
-  return listingsInterface(listings);
+  return {
+    isValid: isValidListing,
+    add: title => addListing(title, listings),
+    finish: () => getListings()
+  };
 }
 
-function listingsInterface(listings) {
-  return {
-    isValid: ({ htmlElementType, listingName }) =>
-      isCorrectHtmlType(htmlElementType) && isValidListingName(listingName),
+function isValidListing({ htmlElementType, listingName }) {
+  return isCorrectHtmlType(htmlElementType) && isValidListingName(listingName);
+}
 
-    add: listing => listings.add(listing),
+function addListing(listing, listings) {
+  listings.add(listing);
+}
 
-    finish: () => Array.from(listings)
-  };
+function getListings(listings) {
+  return Array.from(listings);
 }
 
 function isCorrectHtmlType(type) {
