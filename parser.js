@@ -19,9 +19,7 @@ function configureParseHandler() {
 
   return {
     onopentag: (name, { title = "" }) => {
-      if (isValid({ htmlElementType: name, listingName: title })) {
-        add(title);
-      }
+      if (isValid({ htmlElementType: name, listingName: title })) add(title);
     },
 
     onend: () => finish()
