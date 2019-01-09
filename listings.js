@@ -14,7 +14,7 @@ function isValidListing({ htmlElementType, listingName }) {
 }
 
 function addListing(listing, listings) {
-  listings.add(listing);
+  return listings.add(listing);
 }
 
 function getListings(listings) {
@@ -22,7 +22,6 @@ function getListings(listings) {
 }
 
 function isCorrectHtmlType(type) {
-  // we're looking for 'a' tags, which contain the listings
   return type === "a";
 }
 
@@ -31,7 +30,6 @@ function isValidListingName(name) {
 }
 
 function isOneWord(name) {
-  // if there's a space, it's a sentence
   return !name.includes(" ");
 }
 
