@@ -10,11 +10,7 @@ function listingsInterface(listings) {
 
     add: listing => listings.add(listing),
 
-    finish: () => {
-      console.log(listings);
-      console.log(Array.from(listings));
-      return Array.from(listings);
-    }
+    finish: () => Array.from(listings)
   };
 }
 
