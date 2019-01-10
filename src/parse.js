@@ -8,16 +8,16 @@ function parseListings(allListings) {
   return parseAndYield({ parser: createParser(handler), handler }, allListings);
 }
 
-function createParser(parseHandler) {
-  return new htmlparser.Parser(parseHandler, {
-    decodeEntities: true
-  });
-}
-
 function parseAndYield(parserWithHandler, allListings) {
   const { parser, handler } = parserWithHandler;
   parse(parser, allListings);
   return handler.yield();
+}
+
+function createParser(parseHandler) {
+  return new htmlparser.Parser(parseHandler, {
+    decodeEntities: true
+  });
 }
 
 function parse(parser, allListings) {
