@@ -8,9 +8,8 @@ const SEARCH_TERMS = ["wool", "chesterfield", "coat"];
 module.exports = { checkStock };
 
 async function checkStock(event) {
-  const allListings = await getListings(URL);
-  const parsedHtml = parseListings(allListings);
-  console.log(`RJWOJSOJ: ${parsedHtml}`);
+  const potentialHits = await searchStock({ url: URL, terms: SEARCH_TERMS });
+  console.log(`Hits: ${potentialHits}`);
 
   return {
     statusCode: 200,
@@ -19,4 +18,9 @@ async function checkStock(event) {
       input: event
     })
   };
+}
+
+async function searchStock({ url, terms }) {
+  const allListings = await getListings(url);
+  return parseListings(allListings);
 }

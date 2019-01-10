@@ -4,19 +4,19 @@ const searchListings = require("./search");
 module.exports = parseListings;
 
 function parseListings(allListings) {
-  const listingsSearcher = searchListings();
-  return parseAndSearch(
-    {
-      parser: createParser(configureParseHandler(listingsSearcher)),
-      searcher: listingsSearcher
-    },
-    allListings
-  );
+  return parseAndSearch(configureParseAndSearch(listingsSearcher), allListings);
 }
 
 function parseAndSearch({ parser, searcher }, allListings) {
   parse(parser, allListings);
   return searcher.finish();
+}
+
+function configureParseAndSearch(listingsSearcher) {
+  return {
+    parser: createParser(configureParseHandler(listingsSearcher)),
+    searcher: listingsSearcher
+  };
 }
 
 function createParser(parseHandler) {
