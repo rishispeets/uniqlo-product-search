@@ -9,18 +9,18 @@ function searchListings() {
   return {
     isValid: isValidListing,
     add: title => addListing(title, listings),
-    finish: () => getListings()
+    finish: () => getResult(listings)
   };
 }
 
-function isValidListing({ htmlElementType, listingName }) {
-  return isATag(htmlElementType) && isValidListingName(listingName);
+function isValidListing({ tagType, title }) {
+  return isATag(tagType) && isValidListingName(title);
 }
 
 function addListing(listing, listings) {
   return listings.add(listing);
 }
 
-function getListings(listings) {
+function getResult(listings) {
   return Array.from(listings);
 }

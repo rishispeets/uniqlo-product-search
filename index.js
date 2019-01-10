@@ -5,11 +5,12 @@ const getListings = require("./src/data");
 const URL = "https://www.uniqlo.com/eu/en_NL/men/outerwear/coats-jackets";
 const SEARCH_TERMS = ["wool", "chesterfield", "coat"];
 
-module.exports = checkStock;
+module.exports = { checkStock };
 
 async function checkStock(event) {
   const allListings = await getListings(URL);
   const parsedHtml = parseListings(allListings);
+  console.log(`RJWOJSOJ: ${parsedHtml}`);
 
   return {
     statusCode: 200,

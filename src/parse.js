@@ -4,22 +4,32 @@ const searchListings = require("./search");
 module.exports = parseListings;
 
 function parseListings(allListings) {
-  const parser = createParser();
-  parser.parse(allListings);
+  const handler = configureParseHandler();
+  return parseAndYield({ parser: createParser(handler), handler }, allListings);
 }
 
-function createParser() {
-  const parser = new htmlparser.Parser(configureParseHandler(), {
+function createParser(parseHandler) {
+  return new htmlparser.Parser(parseHandler, {
     decodeEntities: true
   });
-  return { parse: allListings => parse(parser, allListings) };
+}
+
+function parseAndYield(parserWithHandler, allListings) {
+  const { parser, handler } = parserWithHandler;
+  parse(parser, allListings);
+  return handler.yield();
+}
+
+function parse(parser, allListings) {
+  parser.write(allListings);
+  parser.end();
 }
 
 function configureParseHandler() {
   const listingsSearcher = searchListings();
   return {
     onopentag: onHtmlTag(listingsSearcher),
-    onend: () => listingsSearcher.finish()
+    yield: () => listingsSearcher.finish()
   };
 }
 
@@ -32,9 +42,4 @@ function validateAndAddListing(listing, listingsSearcher) {
   const { isValid, add } = listingsSearcher;
   const { tagType, title } = listing;
   if (isValid({ tagType, title })) return add(title);
-}
-
-function parse(parser, allListings) {
-  parser.write(allListings);
-  parser.end();
 }
