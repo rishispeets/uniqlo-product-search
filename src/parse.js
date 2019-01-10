@@ -37,6 +37,6 @@ function configureParseHandler() {
   };
 }
 
-function validateAndAddListing({ tagType, title }) {
-  if (isValidListing({ tagType, title })) return addListing(title);
+function validateAndAddListing(listing) {
+  if (isValidListing(listing)) return addListing(title);
 }
