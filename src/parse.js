@@ -14,8 +14,7 @@ function parseListings(allListings) {
   );
 }
 
-function parseAndSearch(parserAndSearcher, allListings) {
-  const { parser, searcher } = parserAndSearcher;
+function parseAndSearch({ parser, searcher }, allListings) {
   parse(parser, allListings);
   return searcher.finish();
 }
