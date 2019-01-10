@@ -3,20 +3,20 @@ const searchListings = require("./search");
 
 module.exports = parseListings;
 
+const listingsSearcher = searchListings();
+const { isValidListing, addListing, getSearchResults } = listingsSearcher;
+
 function parseListings(allListings) {
-  return parseAndSearch(configureParseAndSearch(listingsSearcher), allListings);
+  return parseAndSearch(createAndConfigureParser(), allListings);
 }
 
-function parseAndSearch({ parser, searcher }, allListings) {
+function parseAndSearch(parser, allListings) {
   parse(parser, allListings);
-  return searcher.finish();
+  return getSearchResults();
 }
 
-function configureParseAndSearch(listingsSearcher) {
-  return {
-    parser: createParser(configureParseHandler(listingsSearcher)),
-    searcher: listingsSearcher
-  };
+function createAndConfigureParser() {
+  return createParser(configureParseHandler());
 }
 
 function createParser(parseHandler) {
@@ -30,19 +30,13 @@ function parse(parser, allListings) {
   parser.end();
 }
 
-function configureParseHandler(listingsSearcher) {
+function configureParseHandler() {
   return {
-    onopentag: onHtmlTag(listingsSearcher)
+    onopentag: (tagType, { title = "" }) =>
+      validateAndAddListing({ tagType, title })
   };
 }
 
-function onHtmlTag(listingsSearcher) {
-  return (tagType, { title = "" }) =>
-    validateAndAddListing({ tagType, title }, listingsSearcher);
-}
-
-function validateAndAddListing(listing, listingsSearcher) {
-  const { isValid, add } = listingsSearcher;
-  const { tagType, title } = listing;
-  if (isValid({ tagType, title })) return add(title);
+function validateAndAddListing({ tagType, title }) {
+  if (isValidListing({ tagType, title })) return addListing(title);
 }

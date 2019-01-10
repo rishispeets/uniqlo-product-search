@@ -7,9 +7,9 @@ module.exports = searchListings;
 function searchListings() {
   const listings = new Set();
   return {
-    isValid: isValidListing,
-    add: title => addListing(title, listings),
-    finish: () => getResult(listings)
+    isValidListing,
+    addListing: title => addListing(title, listings),
+    getSearchResults: () => getResult(listings)
   };
 }
 
