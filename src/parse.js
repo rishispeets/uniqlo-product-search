@@ -29,8 +29,9 @@ function onHtmlTag(listingsSearcher) {
 }
 
 function validateAndAddListing(listing, listingsSearcher) {
+  const { isValid, add } = listingsSearcher;
   const { tagType, title } = listing;
-  if (listings.isValid({ tagType, title })) return listingsSearcher.add(title);
+  if (isValid({ tagType, title })) return add(title);
 }
 
 function parse(parser, allListings) {
