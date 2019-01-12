@@ -22,5 +22,8 @@ async function checkStock(event) {
 
 async function searchStock({ url, terms }) {
   const allListings = await getListings(url);
+  const listingTags = parseTags();
+  const searchMatches = searchStock(listingTags);
+
   return parseListings(allListings);
 }
