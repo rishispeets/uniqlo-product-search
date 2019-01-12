@@ -1,8 +1,8 @@
 const axios = require("axios");
 
-module.exports = getListings;
+module.exports = getListingsPage;
 
-async function getListings(url) {
+async function getListingsPage(url) {
   try {
     const response = await axios.get(url);
     return response.data;
