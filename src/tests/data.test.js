@@ -1,4 +1,4 @@
-const getListings = require("../data");
+const getListingsPage = require("../data");
 const axios = require("axios");
 
 jest.mock("axios");
@@ -7,7 +7,7 @@ describe("data", () => {
   const URL = "https://www.uniqlo.com/eu/en_NL/men/outerwear/coats-jackets";
   const mockAxiosImplAndGetResult = async fakeResponse => {
     axios.get.mockImplementation(() => Promise.resolve(fakeResponse));
-    return await getListings(URL);
+    return await getListingsPage(URL);
   };
 
   test("it should retrieve html", async () => {
