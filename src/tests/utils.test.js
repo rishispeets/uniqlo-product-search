@@ -6,12 +6,13 @@ describe("isAlphabetical", () => {
   const nonAlphabetical = ["%whsuhuhw", "%$%$%^", "_~`hahaha", "no!"];
   const alphabetical = ["HELLO THERE", "heLLo", "oh noo", "yes1 true"];
 
-  const testCollection = (expectedValue, collection) =>
-    collection.forEach(string =>
-      test(`should return '${expectedValue}' for '${string}'`, () =>
-        expect(isAlphabetical(string)).toBe(expectedValue))
-    );
-
   testCollection(false, nonAlphabetical);
   testCollection(true, alphabetical);
 });
+
+function testCollection(expectedValue, collection) {
+  return collection.forEach(element =>
+    test(`should return '${expectedValue}' for '${element}'`, () =>
+      expect(isAlphabetical(element)).toBe(expectedValue))
+  );
+}
