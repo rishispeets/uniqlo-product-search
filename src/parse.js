@@ -38,9 +38,5 @@ function configureParseHandler() {
 }
 
 function validateAndAddListing(listing) {
-<<<<<<< HEAD
   if (isValidListing(listing)) return addListing(listing.title);
-=======
-  if (isValidListing(listing)) return addListing(title);
->>>>>>> d6ec1cbb510570bcd68c78a7c28e714cbf4a2c3d
 }
