@@ -1,18 +1,15 @@
 const htmlparser = require("htmlparser2");
-const searchListings = require("./search");
+const utils = require("./utils");
 
-module.exports = parseListings;
+const parseResults = createParseResults();
 
-const listingsSearcher = searchListings();
-const { isValidListing, addListing, getSearchResults } = listingsSearcher;
-
-function parseListings(allListings) {
+module.exports = function parseListings(allListings) {
   return parseAndSearch(createAndConfigureParser(), allListings);
-}
+};
 
 function parseAndSearch(parser, allListings) {
   parse(parser, allListings);
-  return getSearchResults();
+  return parseResults.getResults();
 }
 
 function createAndConfigureParser() {
@@ -38,5 +35,14 @@ function configureParseHandler() {
 }
 
 function validateAndAddListing(listing) {
-  if (isValidListing(listing)) return addListing(listing.title);
+  if (utils.isValidListing(listing)) return parseResults.add(listing.title);
+}
+
+function createParseResults() {
+  const parseResults = new Set();
+
+  return {
+    add: title => parseResults.add(title),
+    getResults: () => Array.from(parseResults)
+  };
 }

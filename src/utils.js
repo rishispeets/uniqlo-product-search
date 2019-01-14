@@ -1,3 +1,11 @@
+module.exports = {
+  isValidListing
+};
+
+function isValidListing({ tagType, title }) {
+  return isATag(tagType) && isValidListingName(title);
+}
+
 function isATag(type) {
   return type === "a";
 }
@@ -13,8 +21,3 @@ function isOneWord(name) {
 function isAllCaps(name) {
   return name === name.toUpperCase();
 }
-
-module.exports = {
-  isATag,
-  isValidListingName
-};
