@@ -66,7 +66,7 @@ describe("searchListings", () => {
   });
 
   searchTermsWithResult.forEach(({ term, result }) => {
-    test(`should return '${result}' for '${term}'`, () => {
+    test(`should return '[${result}]' for '${term}'`, () => {
       expect(searchListings(term, sampleListings)).toEqual(result);
     });
   });
