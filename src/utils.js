@@ -3,7 +3,7 @@ module.exports = {
 };
 
 function isValidListing({ tagType, title }) {
-  return isATag(tagType) && isValidListingName(title);
+  return isATag(tagType) && isValidListingName(title) && isAlphabetical(title);
 }
 
 function isATag(type) {
@@ -20,4 +20,8 @@ function isOneWord(name) {
 
 function isAllCaps(name) {
   return name === name.toUpperCase();
+}
+
+function isAlphabetical(name) {
+  return name.match(/^[a-z0-9]+$/) !== null;
 }
