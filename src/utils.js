@@ -10,18 +10,18 @@ function isATag(type) {
   return type === "a";
 }
 
-function isValidListingName(name) {
-  return !isOneWord(name) && isAllCaps(name);
+function isValidListingName(title) {
+  return isAlphabetical(title) && !isOneWord(title) && isAllCaps(title);
 }
 
-function isOneWord(name) {
-  return !name.includes(" ");
+function isOneWord(title) {
+  return !title.includes(" ");
 }
 
-function isAllCaps(name) {
-  return name === name.toUpperCase();
+function isAllCaps(title) {
+  return title === title.toUpperCase();
 }
 
-function isAlphabetical(name) {
-  return name.match(/^[a-z0-9]+$/g) !== null;
+function isAlphabetical(title) {
+  return title.match(/^[a-z0-9 ]+$/i) !== null;
 }

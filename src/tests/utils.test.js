@@ -4,15 +4,14 @@ const isAlphabetical = utils.__get__("isAlphabetical");
 
 describe("isAlphabetical", () => {
   const nonAlphabetical = ["%whsuhuhw", "%$%$%^", "_~`hahaha", "no!"];
-  const alphabetical = ["heLLo", "oh noo", "yes1 true"];
+  const alphabetical = ["HELLO THERE", "heLLo", "oh noo", "yes1 true"];
 
-  nonAlphabetical.forEach(string =>
-    test(`should return 'false' for '${string}'`, () =>
-      expect(isAlphabetical(string)).toBe(false))
-  );
+  const testCollection = (expectedValue, collection) =>
+    collection.forEach(string =>
+      test(`should return '${expectedValue}' for '${string}'`, () =>
+        expect(isAlphabetical(string)).toBe(expectedValue))
+    );
 
-  alphabetical.forEach(string =>
-    test(`should return 'true' for '${string}'`, () =>
-      expect(isAlphabetical(string)).toBe(false))
-  );
+  testCollection(false, nonAlphabetical);
+  testCollection(true, alphabetical);
 });
