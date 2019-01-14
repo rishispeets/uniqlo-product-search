@@ -6,4 +6,4 @@ provider:
 
 functions:
   checkstock:
-    handler: index.checkStock
+    handler: handler.checkStock
