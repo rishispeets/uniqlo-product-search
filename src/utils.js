@@ -2,8 +2,13 @@ module.exports = {
   isValidListing,
   toTitleCase,
   lowerCaseAllElements,
-  isEmpty
+  isEmpty,
+  pipe
 };
+
+function pipe(...ops) {
+  return ops.reduce((a, b) => arg => b(a(arg)));
+}
 
 function isValidListing({ tagType, title }) {
   return isATag(tagType) && isValidListingName(title);
