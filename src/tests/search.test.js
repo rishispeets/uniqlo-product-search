@@ -1,73 +1,129 @@
 const rewire = require("rewire");
 const searchListings = rewire("../search");
+const createtermMatchCounter = searchListings.__get__(
+  "createTermMatchCounter "
+);
 
 describe("searchListings", () => {
   const sampleListings = [
-    "50 - 70 €",
-    "70 - 100 €",
-    "MEN BLOCKTECH FISHTAIL PARKA",
-    "MEN BLOCKTECH HOODED FISHTAIL PARKA",
-    "MEN BLOCKTECH HOODED PARKA",
-    "MEN BLOCKTECH SINGLE BREASTED COAT",
-    "MEN BLOCKTECH HOODED RAINCOAT PARKA",
-    "MEN ULTRA WARM DOWN HOODED COAT",
-    "MEN NON-QUILTED HOODED DOWN JACKET",
-    "MEN ULTRA LIGHT DOWN SEAMLESS HOODED PARKA",
-    "MEN ULTRA LIGHT DOWN COMPACT JACKET",
-    "MEN LIGHT DOWN VEST",
-    "MEN ULTRA LIGHT DOWN JACKET",
-    "MEN SEAMLESS DOWN HOODED PARKA",
-    "MEN ULTRA LIGHT DOWN HALF COAT",
-    "MEN SEAMLESS DOWN HOODED LONG COAT",
-    "MEN SEAMLESS DOWN HOODED COAT",
-    "MEN PRINTED FLEECE LONG SLEEVED ZIPPED JACKET",
-    "MEN FLUFFY YARN FLEECE ZIPPED JACKET",
-    "MEN FLEECE HIGHNECK LONG SLEEVED ZIPPED JACKET",
-    "MEN JERSEY WASHED WORK JACKET",
-    "MEN UNIQLO U MILANO RIBBED JACKET",
-    "MEN UNIQLO U POCKETABLE COACH JACKET",
-    "MEN HARRINGTON JACKET",
-    "MEN DENIM JACKET",
-    "MEN WOOL STRETCH SLIM FIT JACKET",
-    "MEN COMFORT BLAZER JACKET",
-    "MEN WOOL SLIM FIT STRETCH BLAZER SUIT JACKET",
-    "MEN WOOL STRETCH BLAZER SUIT JACKET",
-    "MEN WOOL SLIM FIT STRETCH SUIT JACKET",
-    "MEN CASHMERE WOOLBLEND CHESTERFIELD COAT"
+    "Men Blocktech Fishtail Parka",
+    "Men Blocktech Hooded Fishtail Parka",
+    "Men Blocktech Hooded Parka",
+    "Men Blocktech Single Breasted Coat",
+    "Men Blocktech Hooded Raincoat Parka",
+    "Men Ultra Warm Down Hooded Coat",
+    "Men Non-quilted Hooded Down Jacket",
+    "Men Ultra Light Down Seamless Hooded Parka",
+    "Men Ultra Light Down Compact Jacket",
+    "Men Light Down Vest",
+    "Men Ultra Light Down Jacket",
+    "Men Seamless Down Hooded Parka",
+    "Men Ultra Light Down Half Coat",
+    "Men Seamless Down Hooded Long Coat",
+    "Men Seamless Down Hooded Coat",
+    "Men Printed Fleece Long Sleeved Zipped Jacket",
+    "Men Fluffy Yarn Fleece Zipped Jacket",
+    "Men Fleece Highneck Long Sleeved Zipped Jacket",
+    "Men Jersey Washed Work Jacket",
+    "Men Uniqlo U Milano Ribbed Jacket",
+    "Men Uniqlo U Pocketable Coach Jacket",
+    "Men Harrington Jacket",
+    "Men Denim Jacket",
+    "Men Wool Stretch Slim Fit Jacket",
+    "Men Comfort Blazer Jacket",
+    "Men Wool Slim Fit Stretch Blazer Suit Jacket",
+    "Men Wool Stretch Blazer Suit Jacket",
+    "Men Wool Slim Fit Stretch Suit Jacket",
+    "Men Cashmere Woolblend Chesterfield Coat"
   ];
-  const searchTermsWithoutResult = [
-    "lol this aint no coat",
-    "pants",
-    "WOMAN JACKET"
-  ];
-  const searchTermsWithResult = [
+  const searchTermsWithoutResult = ["evil rabid bunnies", "pants", ""];
+  const searchTermsWithSortedResults = [
     {
-      term: "blocktech hooded parka",
-      result: [
-        "MEN BLOCKTECH HOODED FISHTAIL PARKA",
-        "MEN BLOCKTECH HOODED PARKA",
-        "MEN BLOCKTECH HOODED RAINCOAT PARKA"
+      term: "blocktech",
+      results: [
+        "Men Blocktech Fishtail Parka",
+        "Men Blocktech Hooded Fishtail Parka",
+        "Men Blocktech Hooded Parka",
+        "Men Blocktech Single Breasted Coat",
+        "Men Blocktech Hooded Raincoat Parka"
       ]
     },
     {
-      term: "pocketable Coach jacket",
-      result: ["MEN UNIQLO U POCKETABLE COACH JACKET"]
+      term: "blocktech parka",
+      results: [
+        "Men Blocktech Fishtail Parka",
+        "Men Blocktech Hooded Fishtail Parka",
+        "Men Blocktech Hooded Parka",
+        "Men Blocktech Hooded Raincoat Parka",
+        "Men Blocktech Single Breasted Coat",
+        "Men Ultra Light Down Seamless Hooded Parka",
+        "Men Seamless Down Hooded Parka"
+      ]
     },
     {
-      term: "CHESTERFIELD coat",
-      result: ["MEN CASHMERE WOOLBLEND CHESTERFIELD COAT"]
+      term: "blocktech fishtail parka",
+      results: [
+        "Men Blocktech Fishtail Parka",
+        "Men Blocktech Hooded Fishtail Parka",
+        "Men Blocktech Hooded Parka",
+        "Men Blocktech Hooded Raincoat Parka",
+        "Men Blocktech Single Breasted Coat",
+        "Men Ultra Light Down Seamless Hooded Parka",
+        "Men Seamless Down Hooded Parka"
+      ]
+    },
+    {
+      term: "seamLess COat",
+      results: [
+        "Men Seamless Down Hooded Long Coat",
+        "Men Seamless Down Hooded Coat",
+        "Men Blocktech Single Breasted Coat",
+        "Men Ultra Warm Down Hooded Coat",
+        "Men Ultra Light Down Seamless Hooded Parka",
+        "Men Seamless Down Hooded Parka",
+        "Men Ultra Light Down Half Coat",
+        "Men Cashmere Woolblend Chesterfield Coat"
+      ]
     }
   ];
 
+  test("should return '[]' when given empty listings '[]'", () => {
+    expect(searchListings("parka", [])).toEqual([]);
+  });
+
   searchTermsWithoutResult.forEach(term => {
-    test(`should return '[]' for '${term}'`, () => {
+    test(`should return '[]' for term:'${term}'`, () => {
       expect(searchListings(term, sampleListings)).toEqual([]);
     });
   });
 
-  searchTermsWithResult.forEach(({ term, result }) => {
-    test(`should return '[${result}]' for '${term}'`, () => {
-      expect(searchListings(term, sampleListings)).toEqual(result);
+  searchTermsWithSortedResults.forEach(({ term, results }) => {
+    test(`should return '[${results}]' for term:'${term}'`, () => {
+      expect(searchListings(term, sampleListings)).toEqual(results);
     });
+  });
+});
+
+describe("createSearchTermsMatchedCounter", () => {
+  test("should return empty '{}' if 'listings': []", () => {
+    const expected = {};
+    const actual = createtermMatchCounter([]);
+
+    expect(actual).toEqual(expected);
+  });
+
+  test("should return '{}' where key:val is ['listing']:0", () => {
+    const sampleListings = [
+      "MEN BLOCKTECH FISHTAIL PARKA",
+      "MEN FLEECE HIGHNECK LONG SLEEVED ZIPPED JACKET",
+      "MEN CASHMERE WOOLBLEND CHESTERFIELD COAT"
+    ];
+    const expected = {
+      "MEN BLOCKTECH FISHTAIL PARKA": 0,
+      "MEN FLEECE HIGHNECK LONG SLEEVED ZIPPED JACKET": 0,
+      "MEN CASHMERE WOOLBLEND CHESTERFIELD COAT": 0
+    };
+
+    expect(createtermMatchCounter(sampleListings)).toEqual(expected);
   });
 });
