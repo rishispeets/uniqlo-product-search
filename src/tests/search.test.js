@@ -1,8 +1,5 @@
 const rewire = require("rewire");
 const searchListings = rewire("../search");
-const createtermMatchCounter = searchListings.__get__(
-  "createTermMatchCounter "
-);
 
 describe("searchListings", () => {
   const sampleListings = [
@@ -101,29 +98,5 @@ describe("searchListings", () => {
     test(`should return '[${results}]' for term:'${term}'`, () => {
       expect(searchListings(term, sampleListings)).toEqual(results);
     });
-  });
-});
-
-describe("createSearchTermsMatchedCounter", () => {
-  test("should return empty '{}' if 'listings': []", () => {
-    const expected = {};
-    const actual = createtermMatchCounter([]);
-
-    expect(actual).toEqual(expected);
-  });
-
-  test("should return '{}' where key:val is ['listing']:0", () => {
-    const sampleListings = [
-      "MEN BLOCKTECH FISHTAIL PARKA",
-      "MEN FLEECE HIGHNECK LONG SLEEVED ZIPPED JACKET",
-      "MEN CASHMERE WOOLBLEND CHESTERFIELD COAT"
-    ];
-    const expected = {
-      "MEN BLOCKTECH FISHTAIL PARKA": 0,
-      "MEN FLEECE HIGHNECK LONG SLEEVED ZIPPED JACKET": 0,
-      "MEN CASHMERE WOOLBLEND CHESTERFIELD COAT": 0
-    };
-
-    expect(createtermMatchCounter(sampleListings)).toEqual(expected);
   });
 });

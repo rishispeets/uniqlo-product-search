@@ -1,27 +1,22 @@
 const utils = require("./utils");
 const { isEmpty, lowerCaseAllElements, toTitleCase } = utils;
 
-module.exports = function searchListings(searchTermsString, listings) {
-  if (isEmpty(searchTermsString)) return [];
+module.exports = function searchListings(searchTerms, listings) {
+  if (isEmpty(searchTerms)) return [];
   if (isEmpty(listings)) return [];
 
-  const searchTerms = searchTermsString.split(" ");
-  const lowerCaseTerms = lowerCaseAllElements(searchTerms);
-  const lowerCaseListings = lowerCaseAllElements(listings);
+  // make argument validity the responsibility of caller
+  const formattedInput = formatInput({ searchTerms, listings });
 
-  const termsMatchedCounter = createTermMatchCounter(lowerCaseListings);
-  const counterWithResults = countTermsInListings(
-    termsMatchedCounter,
-    lowerCaseTerms
+  return countSortAndFormatResults(
+    formattedInput.searchTerms,
+    formattedInput.listings
   );
-
-  const sortedSearchResults = sortAndFormatResults(counterWithResults);
-
-  console.log("Terms: ", searchTermsString);
-  console.log("Sorted: ", sortedSearchResults);
-
-  return sortedSearchResults;
 };
+
+function countSortAndFormatResults(terms, listings) {
+  return sortAndFormatResults(countTermsInListings(terms, listings));
+}
 
 function sortAndFormatResults(counter) {
   return Object.entries(counter)
@@ -30,16 +25,8 @@ function sortAndFormatResults(counter) {
     .map(toTitleCase);
 }
 
-function createTermMatchCounter(listings) {
-  return listings.reduce(
-    (counter, listing) => ({ ...counter, [listing]: 0 }),
-    {}
-  );
-}
-
 // returns a new version of counter with all terms counted
-function countTermsInListings(counter, terms) {
-  const listings = Object.keys(counter);
+function countTermsInListings(terms, listings) {
   return listings.reduce(countTermsInListingsReducer(terms), {});
 }
 
@@ -71,4 +58,11 @@ function pickListing(listingWithCount) {
 
 function listingNotFound(count) {
   return count === 0;
+}
+
+function formatInput({ searchTerms, listings }) {
+  return {
+    searchTerms: lowerCaseAllElements(searchTerms.split(" ")),
+    listings: lowerCaseAllElements(listings)
+  };
 }
