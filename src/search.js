@@ -40,8 +40,8 @@ function countTerms(listingWords) {
   return (sum, term) => (listingWords.includes(term) ? sum + 1 : sum);
 }
 
-function higherTermCountToLower(listingWithCount1, listingWithCount2) {
-  return listingWithCount2[1] - listingWithCount1[1];
+function higherTermCountToLower([_, listingOneCount], [__, listingTwoCount]) {
+  return listingTwoCount - listingOneCount;
 }
 
 function hasSomeEmptyInput(input) {
