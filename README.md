@@ -26,6 +26,16 @@ npm install
 npm install -g serverless
 sls deploy
 ```
+## API
+
+Example of a valid Lambda event argument:
+
+```JSON
+{
+  "url": "https://www.uniqlo.com/eu/en/men/outerwear/coats-jackets/wool-coats",
+  "searchTerms": "wool coat"
+}
+```
 
 ## Contributing
 
