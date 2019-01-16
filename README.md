@@ -28,7 +28,7 @@ sls deploy
 ```
 ## API
 
-Example of a valid Lambda event argument:
+Example of a valid Lambda event argument with the required fields:
 
 ```JSON
 {
