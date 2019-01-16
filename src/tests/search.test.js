@@ -3,40 +3,44 @@ const searchListings = rewire("../search");
 
 describe("searchListings", () => {
   const sampleListings = [
-    "Men Blocktech Fishtail Parka",
-    "Men Blocktech Hooded Fishtail Parka",
-    "Men Blocktech Hooded Parka",
-    "Men Blocktech Single Breasted Coat",
-    "Men Blocktech Hooded Raincoat Parka",
-    "Men Ultra Warm Down Hooded Coat",
-    "Men Non-quilted Hooded Down Jacket",
-    "Men Ultra Light Down Seamless Hooded Parka",
-    "Men Ultra Light Down Compact Jacket",
-    "Men Light Down Vest",
-    "Men Ultra Light Down Jacket",
-    "Men Seamless Down Hooded Parka",
-    "Men Ultra Light Down Half Coat",
-    "Men Seamless Down Hooded Long Coat",
-    "Men Seamless Down Hooded Coat",
-    "Men Printed Fleece Long Sleeved Zipped Jacket",
-    "Men Fluffy Yarn Fleece Zipped Jacket",
-    "Men Fleece Highneck Long Sleeved Zipped Jacket",
-    "Men Jersey Washed Work Jacket",
-    "Men Uniqlo U Milano Ribbed Jacket",
-    "Men Uniqlo U Pocketable Coach Jacket",
-    "Men Harrington Jacket",
-    "Men Denim Jacket",
-    "Men Wool Stretch Slim Fit Jacket",
-    "Men Comfort Blazer Jacket",
-    "Men Wool Slim Fit Stretch Blazer Suit Jacket",
-    "Men Wool Stretch Blazer Suit Jacket",
-    "Men Wool Slim Fit Stretch Suit Jacket",
-    "Men Cashmere Woolblend Chesterfield Coat"
+    "men blocktech fishtail parka",
+    "men blocktech hooded fishtail parka",
+    "men blocktech hooded parka",
+    "men blocktech single breasted coat",
+    "men blocktech hooded raincoat parka",
+    "men ultra warm down hooded coat",
+    "men non-quilted hooded down jacket",
+    "men ultra light down seamless hooded parka",
+    "men ultra light down compact jacket",
+    "men light down vest",
+    "men ultra light down jacket",
+    "men seamless down hooded parka",
+    "men ultra light down half coat",
+    "men seamless down hooded long coat",
+    "men seamless down hooded coat",
+    "men printed fleece long sleeved zipped jacket",
+    "men fluffy yarn fleece zipped jacket",
+    "men fleece highneck long sleeved zipped jacket",
+    "men jersey washed work jacket",
+    "men uniqlo u milano ribbed jacket",
+    "men uniqlo u pocketable coach jacket",
+    "men harrington jacket",
+    "men denim jacket",
+    "men wool stretch slim fit jacket",
+    "men comfort blazer jacket",
+    "men wool slim fit stretch blazer suit jacket",
+    "men wool stretch blazer suit jacket",
+    "men wool slim fit stretch suit jacket",
+    "men cashmere woolblend chesterfield coat"
   ];
-  const searchTermsWithoutResult = ["evil rabid bunnies", "pants", ""];
+  const searchTermsWithoutResult = [
+    ["evil", "rabid", "bunnies"],
+    ["pants"],
+    [""]
+  ];
   const searchTermsWithSortedResults = [
     {
-      term: "blocktech",
+      term: ["blocktech"],
       results: [
         "Men Blocktech Fishtail Parka",
         "Men Blocktech Hooded Fishtail Parka",
@@ -46,7 +50,7 @@ describe("searchListings", () => {
       ]
     },
     {
-      term: "blocktech parka",
+      term: ["blocktech", "parka"],
       results: [
         "Men Blocktech Fishtail Parka",
         "Men Blocktech Hooded Fishtail Parka",
@@ -58,7 +62,7 @@ describe("searchListings", () => {
       ]
     },
     {
-      term: "blocktech fishtail parka",
+      term: ["blocktech", "fishtail", "parka"],
       results: [
         "Men Blocktech Fishtail Parka",
         "Men Blocktech Hooded Fishtail Parka",
@@ -70,7 +74,7 @@ describe("searchListings", () => {
       ]
     },
     {
-      term: "seamLess COat",
+      term: ["seamless", "coat"],
       results: [
         "Men Seamless Down Hooded Long Coat",
         "Men Seamless Down Hooded Coat",
@@ -85,7 +89,7 @@ describe("searchListings", () => {
   ];
 
   test("should return '[]' when given empty listings '[]'", () => {
-    expect(searchListings("parka", [])).toEqual([]);
+    expect(searchListings(["parka"], [])).toEqual([]);
   });
 
   searchTermsWithoutResult.forEach(term => {

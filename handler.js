@@ -2,6 +2,9 @@
 const parseListings = require("./src/parse");
 const getListings = require("./src/data");
 const searchListings = require("./src/search");
+const utils = require("./src/utils");
+
+const { lowerCaseAllElements } = utils;
 
 const URL = "https://www.uniqlo.com/eu/en_NL/men/outerwear/coats-jackets";
 const SEARCH_TERMS = ["wool", "chesterfield", "coat"];
@@ -24,7 +27,10 @@ async function checkStock(event) {
 async function searchStock({ url, terms }) {
   const allListings = await getListings(url);
   const parsedListings = parseListings(allListings);
-  const searchResults = 
+  const searchResults = searchListings(
+    lowerCaseAllElements(terms).split(" "),
+    lowerCaseAllElements(parsedListings)
+  );
 
-  return parsedListings;
+  return searchResults;
 }

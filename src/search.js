@@ -1,17 +1,10 @@
 const utils = require("./utils");
-const { isEmpty, lowerCaseAllElements, toTitleCase } = utils;
+const { isEmpty, toTitleCase } = utils;
 
 module.exports = function searchListings(searchTerms, listings) {
-  if (isEmpty(searchTerms)) return [];
-  if (isEmpty(listings)) return [];
+  if (hasSomeEmptyInput([searchTerms, listings])) return [];
 
-  // make argument validity the responsibility of caller
-  const formattedInput = formatInput({ searchTerms, listings });
-
-  return countSortAndFormatResults(
-    formattedInput.searchTerms,
-    formattedInput.listings
-  );
+  return countSortAndFormatResults(searchTerms, listings);
 };
 
 function countSortAndFormatResults(terms, listings) {
@@ -40,29 +33,25 @@ function countTermsInListingsReducer(terms) {
 }
 
 function splitListingAndCountTerms(listing, terms) {
-  const listingWords = listing.split(" ");
-  return terms.reduce(countTerms(listingWords), 0);
+  return terms.reduce(countTerms(listing.split(" ")), 0);
 }
 
 function countTerms(listingWords) {
-  return (acc, term) => (listingWords.includes(term) ? acc + 1 : acc);
+  return (sum, term) => (listingWords.includes(term) ? sum + 1 : sum);
 }
 
 function higherTermCountToLower(listingWithCount1, listingWithCount2) {
   return listingWithCount2[1] - listingWithCount1[1];
 }
 
-function pickListing(listingWithCount) {
-  return listingWithCount[0];
+function hasSomeEmptyInput(input) {
+  return input.some(input => isEmpty(input));
+}
+
+function pickListing([listing]) {
+  return listing;
 }
 
 function listingNotFound(count) {
   return count === 0;
-}
-
-function formatInput({ searchTerms, listings }) {
-  return {
-    searchTerms: lowerCaseAllElements(searchTerms.split(" ")),
-    listings: lowerCaseAllElements(listings)
-  };
 }
