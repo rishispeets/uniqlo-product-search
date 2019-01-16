@@ -8,7 +8,7 @@ The Lambda accepts a url and a string containing search terms. It performs a fuz
 
 You can pair the Lambda with something like AWS CloudWatch for regular scrapes, or AWS API Gateway if you need an endpoint.
 
-Also, right after I started building this, I bought a different jacket.
+Right after I started building this, I bought a different jacket. May that serve as a lesson to myself never to build silly things like this again.
 
 ## Install
 
