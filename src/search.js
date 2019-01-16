@@ -27,7 +27,7 @@ function countTermsInListingsReducer(terms) {
   return (newCounter, listing) => {
     const count = splitListingAndCountTerms(listing, terms);
 
-    if (listingNotFound(count)) return newCounter;
+    if (termsNotFound(count)) return newCounter;
     return { ...newCounter, [listing]: count };
   };
 }
@@ -52,6 +52,6 @@ function pickListing([listing]) {
   return listing;
 }
 
-function listingNotFound(count) {
+function termsNotFound(count) {
   return count === 0;
 }
