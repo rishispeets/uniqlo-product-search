@@ -4,6 +4,7 @@ const URL = "https://www.uniqlo.com/eu/en_NL/men/outerwear/coats-jackets";
 const SEARCH_TERMS = "wool CHESTERFIELD coat";
 
 module.exports = { checkstock };
+
 async function checkstock(event) {
   const searchMatches = await searchStock(URL, SEARCH_TERMS);
   return respondWithMatches(searchMatches);
