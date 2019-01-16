@@ -2,8 +2,10 @@ const searchStock = require("./src/index");
 
 module.exports = { checkstock };
 
-async function checkstock({ url, searchTerms }) {
-  if (!isUniqloUrl(URL))
+async function checkstock(event) {
+  const { url, searchTerms } = JSON.parse(event);
+
+  if (!isUniqloUrl(url))
     return new Error("Please pass a Uniqlo url with product listings");
 
   return searchStock(url, searchTerms);

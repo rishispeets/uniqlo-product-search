@@ -1,4 +1,4 @@
-service: are-u-there-jacket # NOTE: update this with your service name
+service: uniqlo-product-search # NOTE: update this with your service name
 
 provider:
   name: aws
