@@ -3,7 +3,6 @@ const { isEmpty, toTitleCase } = utils;
 
 module.exports = function searchListings(searchTerms, listings) {
   if (hasSomeEmptyInput([searchTerms, listings])) return [];
-
   return countSortAndFormatResults(searchTerms, listings);
 };
 
