@@ -6,7 +6,7 @@
 <div style="text-align:center">Photo by Daniel Bowman on Unsplash</div>
 <br>
 
-I needed a new winter jacket, but for some reason, the jacket I wanted kept dissapearing from Uniqlo's website. Since I value my time so much, I build this scraper.
+I needed a new winter jacket, but for some reason, the jacket I wanted kept dissapearing from Uniqlo's website. Since I value my time so much, I wrote this scraper.
 
 The Lambda accepts a url and a string containing search terms. It performs a fuzzy search(-ish), and returns the products matching the search terms, from highest to lowest relevance.
 
