@@ -1,4 +1,3 @@
-"use strict";
 const parseListings = require("./parse");
 const getListings = require("./data");
 const searchListings = require("./search");

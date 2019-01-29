@@ -1,36 +1,16 @@
-"use strict";
-const parseListings = require("./src/parse");
-const getListings = require("./src/data");
-const searchListings = require("./src/search");
-const utils = require("./src/utils");
+const searchStock = require("./src/index");
 
-const { lowerCaseAllElements } = utils;
+module.exports = { checkstock };
 
-const URL = "https://www.uniqlo.com/eu/en_NL/men/outerwear/coats-jackets";
-const SEARCH_TERMS = ["wool", "chesterfield", "coat"];
+async function checkstock(event) {
+  const { url, searchTerms } = JSON.parse(event);
 
-module.exports = { checkStock };
+  if (!isUniqloUrl(url))
+    return new Error("Please pass a Uniqlo url with product listings");
 
-async function checkStock(event) {
-  const potentialHits = await searchStock({ url: URL, terms: SEARCH_TERMS });
-  console.log(`Hits: ${potentialHits}`);
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: "haha",
-      input: event
-    })
-  };
+  return searchStock(url, searchTerms);
 }
 
-async function searchStock({ url, terms }) {
-  const allListings = await getListings(url);
-  const parsedListings = parseListings(allListings);
-  const searchResults = searchListings(
-    lowerCaseAllElements(terms).split(" "),
-    lowerCaseAllElements(parsedListings)
-  );
-
-  return searchResults;
+function isUniqloUrl(url) {
+  return url.includes("uniqlo.com");
 }

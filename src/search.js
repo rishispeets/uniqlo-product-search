@@ -3,12 +3,7 @@ const utils = require("./utils");
 const { isEmpty, toTitleCase } = utils;
 
 module.exports = function searchListings(searchTerms, listings) {
-<<<<<<< Updated upstream
-  if (hasSomeEmptyInput([searchTerms, listings])) return [];
-
-=======
   if (isEmpty(searchTerms) || isEmpty(listings)) return [];
->>>>>>> Stashed changes
   return countSortAndFormatResults(searchTerms, listings);
 };
 
