@@ -1,9 +1,14 @@
 const utils = require("./utils");
+
 const { isEmpty, toTitleCase } = utils;
 
 module.exports = function searchListings(searchTerms, listings) {
+<<<<<<< Updated upstream
   if (hasSomeEmptyInput([searchTerms, listings])) return [];
 
+=======
+  if (isEmpty(searchTerms) || isEmpty(listings)) return [];
+>>>>>>> Stashed changes
   return countSortAndFormatResults(searchTerms, listings);
 };
 
@@ -13,45 +18,39 @@ function countSortAndFormatResults(terms, listings) {
 
 function sortAndFormatResults(counter) {
   return Object.entries(counter)
-    .sort(higherTermCountToLower)
-    .map(pickListing)
+    .sort(higherTermCountToLower) // ordering is significant
+    .map(onlyKeepListingName)
     .map(toTitleCase);
 }
 
-// returns a new version of counter with all terms counted
+// Returns a counter that contains each listing with a count
+// TODO: Make this more efficient
 function countTermsInListings(terms, listings) {
-  return listings.reduce(countTermsInListingsReducer(terms), {});
+  return listings.reduce((counter, listing) => {
+    const count = splitAndCountTerms(listingWords, terms);
+
+    if (!count) return counter; // don't include listings without a count
+    return { ...counter, [listing]: count };
+  }, {});
 }
 
-function countTermsInListingsReducer(terms) {
-  return (newCounter, listing) => {
-    const count = splitListingAndCountTerms(listing, terms);
-
-    if (termsNotFound(count)) return newCounter;
-    return { ...newCounter, [listing]: count };
-  };
+function splitAndCountTerms(listing, terms) {
+  return countTerms(listing.split(" "), terms);
 }
 
-function splitListingAndCountTerms(listing, terms) {
-  return terms.reduce(countTerms(listing.split(" ")), 0);
+function countTerms(listingWords, terms) {
+  return terms.reduce((count, term) => {
+    if (listingWords.includes(term)) return count + 1;
+    return count;
+  }, 0);
 }
 
-function countTerms(listingWords) {
-  return (sum, term) => (listingWords.includes(term) ? sum + 1 : sum);
-}
+// ******************************
 
 function higherTermCountToLower([_, listingOneCount], [__, listingTwoCount]) {
   return listingTwoCount - listingOneCount;
 }
 
-function hasSomeEmptyInput(input) {
-  return input.some(input => isEmpty(input));
-}
-
-function pickListing([listing]) {
+function onlyKeepListingName([listing]) {
   return listing;
-}
-
-function termsNotFound(count) {
-  return count === 0;
 }

@@ -1,7 +1,9 @@
 const htmlparser = require("htmlparser2");
 const utils = require("./utils");
 
-const parseResults = createParseResults();
+// ParseResults contains the collection that will hold the finished result
+// after parsing. At this point it is empty.
+const ParseResults = createParseResults();
 
 module.exports = function parseListings(allListings) {
   return parseAndSearch(createAndConfigureParser(), allListings);
@@ -9,7 +11,7 @@ module.exports = function parseListings(allListings) {
 
 function parseAndSearch(parser, allListings) {
   parse(parser, allListings);
-  return parseResults.getResults();
+  return ParseResults.getResults();
 }
 
 function createAndConfigureParser() {
@@ -35,7 +37,7 @@ function configureParseHandler() {
 }
 
 function validateAndAddListing(listing) {
-  if (utils.isValidListing(listing)) return parseResults.add(listing.title);
+  if (utils.isValidListing(listing)) return ParseResults.add(listing.title);
 }
 
 function createParseResults() {
